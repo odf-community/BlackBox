@@ -1,8 +1,8 @@
 #!/bin/bash
+## BlackBox V1.0.4_6 | BPFW Revision 3
 
-## BlackBox V1.0.4-2 BPFW Revision 3
 ## Developed & Maintained By The BlackBox Computer Security Research And Development Team
-## (C) 2023 Onetrak Digital Forensics Corporation
+## BPFW (C) 2023 Onetrak Digital Forensics Corporation
 ## Licensed (GNU) Revision 3
 
 
@@ -25,6 +25,12 @@ dir_setup () {
 
     fi
 
+    if [ ! -d "$localrepo" ]; then
+
+        mkdir -p "$localrepo"
+
+    fi
+
 }
 
 mainprog () {
@@ -43,6 +49,14 @@ mainprog () {
                     tout_green="ansi --bold --green-intense"
                     tout_yellow="ansi --bold --yellow-intense"
 
+                else
+
+                    echo ""
+                    echo " [ ERROR ] Cannot Find BPFW Extention 'ANSI'"
+                    echo ""
+
+                    exit
+
                 fi
 
                 if [ -f "$local_bash/bash-ini-parser/bash-ini-parser" ]; then
@@ -57,12 +71,20 @@ mainprog () {
 
                     fi
 
+                else
+
+                    echo ""
+                    echo " [ ERROR ] Cannot Find BPFW Extention 'BINIP'"
+                    echo ""
+
+                    exit
+
                 fi
 
             else
 
                 echo ""
-                echo " [ ERROR ] Could Not Find Local Script Area"
+                echo " [ ERROR ] Cannot Find Local Script Area"
                 echo ""
 
                 exit
@@ -100,6 +122,10 @@ mainprog () {
 
                         rm -r "BlackBox"
 
+                    elif [ -d "BlackBox-$client_old" ]; then
+
+                        rm -r "BlackBox-$client_old"
+
                     else
 
                         echo ""
@@ -111,6 +137,10 @@ mainprog () {
                     fi
 
                     git clone $repo_url
+
+                    cd BlackBox
+
+                    git init
 
                     cd $localscript
 
@@ -201,7 +231,9 @@ mainprog () {
 
                     else
 
+                        echo ""
                         $tout_yellow " [ BPFW.UPGRADE_CLIENT ] Exiting On Users Request"
+                        echo ""
 
                         exit
 
@@ -275,7 +307,6 @@ mainprog () {
             touch $touchfile
 
         }
-
 
         ## DATABASE MANAGER ##
 
@@ -587,20 +618,20 @@ mainprog () {
                 cfg_section_db_sizedata
                 cfg_section_db_dependabot
 
-                $tout_red " [ DB_MAN ] Database Location: $db_local"
-                $tout_red " [ DB_MAN ] Database INIT File: $db_init"
-                $tout_red " [ DB_MAN ] Database Listings File: $db_listing"
+                $tout_red " [ DB_MAN ] Database Location: $db_local"; read -t .1
+                $tout_red " [ DB_MAN ] Database INIT File: $db_init"; read -t .1
+                $tout_red " [ DB_MAN ] Database Listings File: $db_listing"; read -t .1
                 echo ""
-                $tout_red " [ DB_MAN ] Database Name: $db_name"
-                $tout_red " [ DB_MAN ] Database Files: $db_files"
-                $tout_red " [ DB_MAN ] Database Folders: $db_folders"
-                $tout_red " [ DB_MAN ] Database Size (MB): $db_size_mb"
+                $tout_red " [ DB_MAN ] Database Name: $db_name"; read -t .1
+                $tout_red " [ DB_MAN ] Database Files: $db_files"; read -t .1
+                $tout_red " [ DB_MAN ] Database Folders: $db_folders"; read -t .1
+                $tout_red " [ DB_MAN ] Database Size (MB): $db_size_mb"; read -t .1
                 echo ""
-                $tout_red " [ DB_MAN ] Database Install Dependencies (Debian): $dep_debian"
-                $tout_red " [ DB_MAN ] Database Install Dependencies (Mac-OS): $dep_mac"
-                $tout_red " [ DB_MAN ] Database Install Dependencies (Fedora): $dep_fedora"
+                $tout_red " [ DB_MAN ] Database Install Dependencies (Debian): $dep_debian"; read -t .1
+                $tout_red " [ DB_MAN ] Database Install Dependencies (Mac-OS): $dep_mac"; read -t .1
+                $tout_red " [ DB_MAN ] Database Install Dependencies (Fedora): $dep_fedora"; read -t .1
                 echo ""
-                $tout_red " [ DB_MAN ] Database Listing Data:"
+                $tout_red " [ DB_MAN ] Database Listing Data:"; read -t .1
 
                 func.extlist
 
