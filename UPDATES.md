@@ -1,5 +1,14 @@
 ## [`blackbox.sh`](BlackBox.proj/blackbox.sh) ⬇️
 
+### BlackBox V1.0.4_6 (BPFW_Rev_3)
+
+> May 2, 2023 (Commited By [`secops@odfsec.org`](https://github.com/odf-community)) <br>
+> Update to BlackBox version 1.0.4_6
+
+> Bump version number of BlackBox to 1.0.4_6, update the "version.ini" file with the new version number and add a message at the top of the "blackbox.sh" script with the same version. Code changes also include creating the "localrepo" folder if it does not exist and adding error reporting logic for missing libraries. Finally, add database information display to the console.
+
+<br>
+
 ### BlackBox V1.0.4_5 (BPFW_Rev_3)
 
 > May 2, 2023 (Commited By [`secops@odfsec.org`](https://github.com/odf-community)) <br>

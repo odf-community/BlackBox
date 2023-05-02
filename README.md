@@ -13,11 +13,11 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣶⣤⣉⣛⠻⠇⢠⣿⣾⣿⡄⢻⡇        ━ © BPFW, 2023, 0DFS3C {Co-Auth @Albfan @Fidian}
  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣦⣤⣾⣿⣿⣿⣿⣆⠁
 
-  Program Type: BPFW_Rev_3  Program Version: 1.0.4_5  Program Branch: COMMUNITY  Script ID: ./blackbox.sh  Script Control: func.prog_control
+  Program Type: BPFW_Rev_3  Program Version: 1.0.4_6  Program Branch: COMMUNITY  Script ID: ./blackbox.sh  Script Control: func.prog_control
 ````
 
 ## BlackBox | The Computer Security MasterKit For Linux Systems
-> Current Version: 1.0.4_5 <br>
+> Current Version: 1.0.4_6 <br>
 > Current Branch: COMMUNITY <br>
 > BPFW Revision: 3 <br>
 > Last Update: [`UPDATES.md`](UPDATES.md#blackbox-script-last-update)
