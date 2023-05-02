@@ -27,8 +27,6 @@ dir_setup () {
 
 }
 
-dir_setup
-
 mainprog () {
 
     function_dictionary () {
@@ -75,6 +73,7 @@ mainprog () {
 
                 funclst=$( declare -F | awk '{print $NF}' | sort | egrep -v "^_" )
                 $tout_red "$(echo "$funclst" | grep func.)"
+                $tout_red "$(echo "$funclst" | grep bpfw.)"
 
             }
 
@@ -103,7 +102,9 @@ mainprog () {
 
                     else
 
+                        echo ""
                         $tout_yellow " [ ERROR ] Project Has Left GitHub Repository Area! Update Will Now Exit!"
+                        echo ""
 
                         exit
 
@@ -117,8 +118,6 @@ mainprog () {
 
                     $tout_green " [ BPFW.UPGRADE_CLIENT ] Update Complete!"
 
-                    exit
-                    
                 }
 
                 func.show_banner
@@ -141,10 +140,21 @@ mainprog () {
 
                     exit
 
+                elif [ "$(cat "/tmp/BBDigital_TMP/newversion.ini" | grep 404)" == "404: Not Found" ]; then
+
+                    echo ""
+                    $tout_yellow " [ ERROR ] Could Not Capture New Version Info!"
+                    $tout_yellow "           Reason: ERR_404"
+                    echo ""
+
+                    exit
+
                 else
 
                     cfg_parser "/tmp/BBDigital_TMP/newversion.ini"
                     cfg_section_newversion
+
+                    rm "/tmp/BBDigital_TMP/newversion.ini"
 
                 fi
 
@@ -424,6 +434,18 @@ mainprog () {
 
                         read -r deletewarn
 
+                    elif [ "$installcanidate" == "export" ]; then
+
+                        echo ""
+                        $tout_yellow " [ WARNING ] Are You Sure You Want To Delete The Following Remote Database!"
+                        $tout_yellow " [ WARNING ] {$specialarg/database-export}"
+                        echo ""
+                        echo ""
+
+                        $tout_red -n " [ ANSWER ] y/n? "
+
+                        read -r deletewarn
+
                     fi
 
                     if [ "$deletewarn" == "y" ]; then
@@ -445,6 +467,24 @@ mainprog () {
                             fi
                             
                             specialarg="$specialarg/database-remote"
+
+                        elif [ "$installcanidate" == "export" ]; then
+
+                            if [ -d "$localrepo/$specialarg/database-export" ]; then
+
+                                rm -r "$localrepo/$specialarg/database-export"
+
+                            else
+
+                                echo ""
+                                $tout_yellow " [ DM_MAN ] No Database To Delete!"
+                                echo ""
+
+                                exit 
+
+                            fi
+                            
+                            specialarg="$specialarg/database-export"
 
                         else
 
@@ -574,6 +614,139 @@ mainprog () {
 
             fi
 
+        }
+
+        func.exportdatabase () {
+
+            if [ -d "$localrepo/$specialarg" ]; then
+
+                echo ""
+                $tout_green " [ DB_MAN ] Export Server-Side Supplicant Found!"
+                echo ""
+
+                if [ -d "$localrepo/$specialarg/database-remote" ]; then
+
+                    echo ""
+                    $tout_green " [ DB_MAN ] Selecting Repository {$specialarg} For Upload!"
+                    echo ""
+
+                    if [ -f "$localrepo/export_settings.ini" ]; then
+
+                        echo ""
+                        $tout_yellow " [ DB_MAN ] Gathering Export Configuration..."
+                        echo ""
+
+                        cfg_parser "$localrepo/export_settings.ini"
+                        cfg_section_export_auth
+                        cfg_section_export_path
+
+                        if [ -z "$sftp_host" ]; then
+
+                            echo ""
+                            $tout_red " [ DM_MAN ] Error, No SFTP Host Defined In 'export_settings.ini'"
+                            echo ""
+
+                            missingconf="true"
+                        
+                        elif [ -z "$sftp_user" ]; then
+
+                            echo ""
+                            $tout_red " [ DM_MAN ] Error, No SFTP Host Defined In 'export_settings.ini'"
+                            echo ""
+
+                            missingconf="true"
+
+                        elif [ -z "$sftp_remote_put_location" ]; then
+
+                            echo ""
+                            $tout_red " [ DM_MAN ] Error, No SFTP Put Location Defined In 'export_settings.ini'"
+                            echo ""
+
+                            missingconf="true"
+
+                        else
+
+                            echo ""
+                            $tout_green " [ DM_MAN ] Export Configuration Successfuly Imported!"
+                            echo ""
+
+                            $tout_yellow " [ DB_MAN ] Creating Repository Update Package!"
+                            echo ""
+
+                            cd "$localrepo/$specialarg"
+
+                            zip -o -q -9 -r db_data.zip database-remote
+
+                            if [ -d "$localrepo/$specialarg/database-export" ]; then
+
+                                rm -r "$localrepo/$specialarg/database-export"
+
+                                mkdir "$localrepo/$specialarg/database-export"
+
+                            else
+
+                                mkdir "$localrepo/$specialarg/database-export"
+
+                            fi
+
+                            mv "$localrepo/$specialarg/db_data.zip" "database-export/db_data.zip"
+
+                            echo ""
+                            $tout_yellow " [ DB_MAN ] Attempting SSH Key Exchange!"
+                            echo ""
+
+                            ssh -t -p 22 $sftp_user@$sftp_host exit
+                            
+                            echo ""
+                            $tout_green " [ DB_MAN ] Host Key Exchange Complete!"
+
+                            echo ""
+                            $tout_yellow " [ DB_MAN ] Attempting File Transfer!"
+                            echo ""
+                            $tout_red " [ DB_MAN ] Enter Passcode For Remote User Account '$sftp_user'"
+                            sftp_passwd=$(zenity --password \
+                                          --title "Enter SFTP Password For $sftp_user @ $sftp_host" )
+
+                            echo ""
+
+                            $tout_yellow "$(lftp sftp://$sftp_user:$sftp_passwd@$sftp_host -p "22" -e "rm $sftp_remote_put_location/db_data.zip; put $localrepo/$specialarg/database-export/db_data.zip -o $sftp_remote_put_location/db_data.zip; bye")"
+                            echo ""
+                            $tout_green " [ DB_MAN ] File Transfer Complete!"
+                            echo ""
+                            
+                        fi
+                        
+                    else
+
+                        echo ""
+                        $tout_yellow " [ DB_MAN ] Error, Cannot Find 'export_settings.ini'"
+                        echo ""
+
+                        exit
+
+                    fi
+
+                else
+
+                    echo ""
+                    $tout_yellow " [ DB_MAN ] Error, Cannot Export Insufficient 'database-remote' Resource"
+                    echo ""
+
+                    exit
+
+                fi
+
+            else
+
+                echo ""
+                $tout_red " [ DB_MAN ] Export Server-Side Supplicant Not Found!"
+                $tout_red "            Exit Reason: SS Suplicant Required!"
+                echo ""
+
+                exit
+
+            fi
+                
         }
 
         func.extinstall () {
@@ -734,6 +907,11 @@ mainprog () {
                 func.show_banner
                 func.importdatabase
 
+            elif [[ "$arg1" == "--repo" && "$arg2" == "export" ]]; then
+
+                func.show_banner
+                func.exportdatabase
+
             elif [[ "$arg1" == "--repo" && "$arg2" == "install" ]]; then
 
                 func.show_banner
@@ -769,6 +947,8 @@ mainprog () {
 prog_control () {
 
     function_dictionary
+
+    dir_setup
 
     func.loadlocal
 

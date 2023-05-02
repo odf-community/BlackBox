@@ -26,7 +26,7 @@
               
               Ex: ./blackbox.sh --repo import odfsec
 
-        4b-2. Available Functions: import create delete install list
+        4b-2. Available Functions: import export create delete install list
 
         4b-3. Available Repositories: odfsec
 
@@ -73,13 +73,14 @@
 
         4e-1. ./blackbox.sh --repo delete
 
-        4e-2. This Command Deletes Local Repositories OR 'database-remote' Data.
+        4e-2. This Command Deletes Local Repositories,'database-remote' Or 'database-export' Data.
 
         4e-3. This Argument Accepts {installcanidate} Variables.
-              The Only Accepted {installcanidate} Variable For This
-              Argument Would Be 'remote'. Using This Install Canidate
-              Will Select The Repositories 'database-remote' Data
-              For Removal.
+              The 2 Accepted {installcanidate} Variables For This
+              Argument Would Be 'remote' or 'export'. Using The 'remote'
+              Option Will Select The Repositories 'database-remote' Data
+              For Removal. Using The 'export' Option Will Select The 
+              Repositories 'database-export' Data For Removal.
 
               Ex: ./blackbox.sh --repo delete 'my_repo' remote
 
@@ -115,6 +116,28 @@
         4g-2. This Command Displays The Database Listing For A Repository
 
         4g-3. Ex: ./blackbox.sh --repo list 'my_repo'
+
+    4h. Repo 'export' Function
+
+        4h-1. ./blackbox.sh --repo export
+
+        4h-2. This Command Exports A Local 'database-remote' Area
+              To A Remote Linux Server Using The Package 'lftp' (SFTP Port)
+
+        4h-3. This Command Requires The Packages zip, ssh, lftp & zenity
+
+        4h-4. Server Configuration Can Be Edited Using Nano
+              Ex: ./blackbox.sh --progctrl func.nanoedit repo/export_settings.ini
+
+        4h-5. After Properly Changing The Configuration To The Users Needs
+              Fill The 'database-remote' Area With Parsable Data, Then Export.
+
+        4h-6. Export: ./blackbox.sh --repo export 'my_repo'
+
+        4h-7. This Will Both Package The 'database-remote' Data into db_data.zip
+              And SFTP "put" File Into The Database Area, While Removing The Old
+              If Existent.
+
 
  Step 5: Use Downloaded Resource
 
