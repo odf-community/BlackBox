@@ -1,0 +1,7 @@
+## HTTPS AGENT ##
+
+repo_url="https://server.odfsec.org/ukndev/repo/database/blackbox"
+pkgid="db_data.zip"
+
+mkdir -p /tmp/BBDigital_TMP
+wget -P /tmp/BBDigital_TMP $repo_url/$pkgid

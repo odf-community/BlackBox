@@ -1,0 +1,125 @@
+ ## BlackBox V1.0.4-2 BPFW Rev. 3 ##
+
+ [Usage Instructions]
+
+ Step 1.: Clone GitHub Repository [Requires Git-CLI]
+
+    1a. cd ~/Downloads
+    1b. git clone https://github.com/odf-community/BlackBox
+
+ Step 2: CD To Project Area
+
+    2a. cd BlackBox/BlackBox.proj
+
+ Step 3: Provide Execute Permissions
+
+    3a. chmod +x blackbox.sh
+
+ Step 4: Execute A Command
+
+    4a. Usage: ./blackbox.sh [--version] [--repo] [--progctrl] 
+
+    4b. Usage Requirements!
+
+        4b-1. The [--repo] Argument Must Have A Function Culprit
+              As Well As A Repository Variable.
+              
+              Ex: ./blackbox.sh --repo import odfsec
+
+        4b-2. Available Functions: import create delete install list
+
+        4b-3. Available Repositories: odfsec
+
+        4b-4. Required Dependencies: bash, wget, unzip
+
+        4b-5. Required Elements: Terminal Emulator (X-term or Gnome-Terminal etc.)
+
+    4c. Repo 'import' Function
+
+        4c-1. ./blackbox.sh --repo import
+
+        4c-2. This Command Downloads The Repository Variable's DL-AGENT.
+              The DL-AGENT Script is Defined @ repo/'repo_name'/dl.info.
+
+        4c-3. After Downloading The Database Package Defined Within The
+              DL-AGENT File, The Contents In 'database-remote' Will Be
+              Copied To The Local Repository Area.
+
+        4c-4. If An Update To The Database File Occurs After Downloading,
+              Re-Execution Of The 'import' Function Will Rebuild The Local
+              Database Area.
+
+    4d. Repo 'create' Function
+
+        4d-1. ./blackbox.sh --repo create
+
+        4d-2. This Command Creates A New Local DL-AGENT Based On An Internally
+              Defined File Template. It Is Not Required To Use This Template,
+              As Long As The Database Package That Is Downloaded Is Placed
+              In The '/tmp/BBDigital_TMP' Directory.
+
+        4d-3. This Argument Accepts {installcanidate} Variables.
+              The Only Accepted {installcanidate} Variable For This
+              Argument Would Be 'localdb'. Using This Install Canidate
+              Will Also Generate a Local Database That Can Be Published
+              With A Supplicant You Create Yourself.
+
+              This Is Only Used In Necessity To Creating A New Remote Repository
+              Ex: ./blackbox.sh --repo create 'new_repo_name' localdb
+
+        4d-4. All Produced Repositories Will Be Placed In 'repo/' Of The "$PWD"
+
+    4e. Repo 'delete' Function
+
+        4e-1. ./blackbox.sh --repo delete
+
+        4e-2. This Command Deletes Local Repositories OR 'database-remote' Data.
+
+        4e-3. This Argument Accepts {installcanidate} Variables.
+              The Only Accepted {installcanidate} Variable For This
+              Argument Would Be 'remote'. Using This Install Canidate
+              Will Select The Repositories 'database-remote' Data
+              For Removal.
+
+              Ex: ./blackbox.sh --repo delete 'my_repo' remote
+
+    4f. Repo 'install' Function
+
+        4f-1. ./blackbox.sh --repo install
+
+        4f-2. This Command Installs Packages Derived From The Repository Database.
+
+        4f-3. Use This In Conjunction With The Install Agents Listed In The Database Listing
+              This Is The Main Purpose Of BlackBox. After Downloading And Extracting The
+              Database Remote Data, The Script Will Search For The Correspoding Install
+              Canidate For The Install Agent Requested In Your Command.
+
+              A Successfull Install Command Should Look Like This:
+
+              ./blackbox.sh --repo install 'repo_name' 'install_agent'
+
+        4f-4. After The Command Is Run, It Will Execute The BBDigital Setup Script
+              For The Desired Program/Script. This Will Download All Dependencies
+              And Files For The Tool And Place Them Where Necessary.
+
+              Some Tools Are Individual Binaries, And Some Come In GitHub Repo's
+              Or From 3rd Party Sources. Please Note That All Code Is Reviewed Before
+              Being Placed Within Our Public Repo.
+
+              Programs That Can be Ran As A Script Are Placed In The 'ext/' Area.
+
+    4g. Repo 'list' Function
+
+        4g-1. ./blackbox.sh --repo list
+
+        4g-2. This Command Displays The Database Listing For A Repository
+
+        4g-3. Ex: ./blackbox.sh --repo list 'my_repo'
+
+ Step 5: Use Downloaded Resource
+
+    5a. ."$PWD"/ext/'toolname'/'tool.sh'
+
+ Step 6: Updating The BlackBox Script
+
+    6a. Execute: ./blackbox.sh --progctrl bpfw.upgrade_client
