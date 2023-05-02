@@ -121,31 +121,30 @@ mainprog () {
                     
                 }
 
+                func.show_banner
+
                 client_old="$currentversion"
-                cnf_url="https://raw.githubusercontent.com/odf-community/BlackBox/version.ini"
                 repo_url="https://github.com/odf-community/BlackBox.git"
 
                 echo ""
-                $tout_red " [ BPFW.UPGRADE_CLIENT ] Check For Newer Version! Requires CURL"
+                $tout_red " [ BPFW.UPGRADE_CLIENT ] Check For Newer Version! Requires Binary Package 'curl'"
                 echo ""
 
-                curl -s $cnf_url -o "/tmp/BBDigital_TMP/newversion.ini"
+                curl https://raw.githubusercontent.com/odf-community/BlackBox/main/version.ini > "/tmp/BBDigital_TMP/newversion.ini" -s
 
                 if [ "$(cat "/tmp/BBDigital_TMP/newversion.ini" | grep 400)" == "400: Invalid request" ]; then
 
                     echo ""
                     $tout_yellow " [ ERROR ] Could Not Capture New Version Info!"
+                    $tout_yellow "           Reason: ERR_400"
                     echo ""
 
                     exit
 
                 else
 
-                    echo ""
-                    $tout_yellow " [ ERROR ] Could Not Capture New Version Info!"
-                    echo ""
-
-                    exit
+                    cfg_parser "/tmp/BBDigital_TMP/newversion.ini"
+                    cfg_section_newversion
 
                 fi
 

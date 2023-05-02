@@ -1,4 +1,4 @@
- ## BlackBox V1.0.4-2 BPFW Rev. 3 ##
+ ## BlackBox V1.0.4_4 BPFW Rev. 3 ##
 
  [Usage Instructions]
 

@@ -15,7 +15,7 @@
 ````
 
 ## BlackBox | The Computer Security MasterKit For Linux Systems
-> Current Version: 1.0.4-2 <br>
+> Current Version: 1.0.4_4 <br>
 > Current Branch: COMMUNITY <br>
 > BPFW Revision: 3 <br>
 > Last Update: [`UPDATES.md`](UPDATES.md#blackbox-script-last-update)
