@@ -24,3 +24,13 @@
 > Update BlackBox to version 1.0.4_4
 
 > Updates BlackBox CLI tool to version 1.0.4_4 in all scripts that display the current version, including the usage and readme files. This change also adapts the client upgrade feature with changes in version numbers within the version.ini file, changes the curl command to download the file, and gives more descriptive error messages. The change updates the bb_conf.ini file with current version details.
+
+<br>
+<br>
+
+## [`BlackBox ODFSEC Public Repo`](https://server.odfsec.org/ukndev/repo/database/blackbox/db_data.zip) ⬇️
+> Last Update May 2, 2023 <br>
+> Removed 1 Broken Package <br>
+> Added Mor Information To listing File <br>
+
+<br>
